@@ -28,9 +28,12 @@ const TicketPage = ({ editMode }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      const response = await axios.put(`${process.env.URL}/tickets/${id}`, {
-        data: formData,
-      });
+      const response = await axios.put(
+        `${process.env.DEPLOYED_URL}/tickets/${id}`,
+        {
+          data: formData,
+        }
+      );
       const success = response.status === 200;
       if (success) {
         navigate("/");
