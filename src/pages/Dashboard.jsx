@@ -8,7 +8,7 @@ const Dashboard = () => {
   const { categories, setCategories } = useContext(CategoriesContext);
 
   useEffect(async () => {
-    const response = await axios.get("http://localhost:8000/tickets");
+    const response = await axios.get(`${process.env.DEPLOYED_URL}/tickets`);
 
     //wasn't sure how to get the Documet Id with the object.. open to better suggestions
     const dataObject = response.data.data;

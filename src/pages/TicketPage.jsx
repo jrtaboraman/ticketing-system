@@ -38,7 +38,7 @@ const TicketPage = ({ editMode }) => {
     }
     if (!editMode) {
       console.log("posting");
-      const response = await axios.post(`${process.env.URL}/tickets`, {
+      const response = await axios.post(`${process.env.DEPLOYED_URL}/tickets`, {
         formData,
       });
       const success = response.status === 200;
@@ -49,7 +49,9 @@ const TicketPage = ({ editMode }) => {
   };
 
   const fetchData = async () => {
-    const response = await axios.get(`${process.env.URL}/tickets/${id}`);
+    const response = await axios.get(
+      `${process.env.DEPLOYED_URL}/tickets/${id}`
+    );
     console.log("AAAAAA", response);
     setFormData(response.data.data);
   };
