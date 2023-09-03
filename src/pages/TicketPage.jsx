@@ -28,12 +28,9 @@ const TicketPage = ({ editMode }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      const response = await axios.put(
-        `https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets/${id}`,
-        {
-          data: formData,
-        }
-      );
+      const response = await axios.put(`${process.env.URL}/tickets/${id}`, {
+        data: formData,
+      });
       const success = response.status === 200;
       if (success) {
         navigate("/");
@@ -41,12 +38,9 @@ const TicketPage = ({ editMode }) => {
     }
     if (!editMode) {
       console.log("posting");
-      const response = await axios.post(
-        "https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets",
-        {
-          formData,
-        }
-      );
+      const response = await axios.post(`${process.env.URL}/tickets`, {
+        formData,
+      });
       const success = response.status === 200;
       if (success) {
         navigate("/");
@@ -55,9 +49,7 @@ const TicketPage = ({ editMode }) => {
   };
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets/${id}`
-    );
+    const response = await axios.get(`${process.env.URL}/tickets/${id}`);
     console.log("AAAAAA", response);
     setFormData(response.data.data);
   };
