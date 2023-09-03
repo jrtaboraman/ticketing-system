@@ -8,7 +8,11 @@ const url = process.env.URL;
 const token = process.env.ASTRA_TOKEN;
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://ticketing-system-aodlssk8a-jrtaboraman.vercel.app",
+  })
+);
 app.use(express.json());
 
 app.get("/tickets", async (req, res) => {
