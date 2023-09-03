@@ -3,12 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import CategoriesContext from "../context";
 
-const apiBaseUrl =
-  "https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections";
-
-// Define a CORS proxy URL (example: crossorigin.me)
-const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
-
 const TicketPage = ({ editMode }) => {
   const [formData, setFormData] = useState({
     status: "not started",
@@ -35,15 +29,9 @@ const TicketPage = ({ editMode }) => {
     if (editMode) {
       try {
         const response = await axios.put(
-          `${corsProxyUrl}${apiBaseUrl}/tasks/${id}`,
+          `https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections/tasks/${id}`,
           {
             data: formData,
-          },
-          {
-            headers: {
-              // You may need to include additional headers here if required by the CORS proxy service.
-              // Refer to the documentation of the CORS proxy service you choose.
-            },
           }
         );
         if (response.status === 200) {
@@ -57,15 +45,9 @@ const TicketPage = ({ editMode }) => {
       console.log("posting");
       try {
         const response = await axios.post(
-          `${corsProxyUrl}${apiBaseUrl}`,
+          "https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections",
           {
             formData,
-          },
-          {
-            headers: {
-              // You may need to include additional headers here if required by the CORS proxy service.
-              // Refer to the documentation of the CORS proxy service you choose.
-            },
           }
         );
         if (response.status === 200) {
@@ -79,7 +61,9 @@ const TicketPage = ({ editMode }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${corsProxyUrl}${apiBaseUrl}/${id}`);
+      const response = await axios.get(
+        `https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections/${id}`
+      );
       setFormData(response.data.data);
     } catch (error) {
       console.error(error);
