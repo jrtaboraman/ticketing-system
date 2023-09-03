@@ -29,7 +29,7 @@ const TicketPage = ({ editMode }) => {
     e.preventDefault();
     if (editMode) {
       const response = await axios.put(
-        `${process.env.DEPLOYED_URL}/tickets/${id}`,
+        `https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets/${id}`,
         {
           data: formData,
         }
@@ -41,9 +41,12 @@ const TicketPage = ({ editMode }) => {
     }
     if (!editMode) {
       console.log("posting");
-      const response = await axios.post(`${process.env.DEPLOYED_URL}/tickets`, {
-        formData,
-      });
+      const response = await axios.post(
+        "https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets",
+        {
+          formData,
+        }
+      );
       const success = response.status === 200;
       if (success) {
         navigate("/");
@@ -53,7 +56,7 @@ const TicketPage = ({ editMode }) => {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `${process.env.DEPLOYED_URL}/tickets/${id}`
+      `https://ticketing-system-7p2gjclcn-jrtaboraman.vercel.app/tickets/${id}`
     );
     console.log("AAAAAA", response);
     setFormData(response.data.data);
