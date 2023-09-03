@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import CategoriesContext from "../context";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import CategoriesContext from "../context";
 
 const TicketPage = ({ editMode }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,6 @@ const TicketPage = ({ editMode }) => {
     progress: 0,
     timestamp: new Date().toISOString(),
   });
-
   const { categories, setCategories } = useContext(CategoriesContext);
 
   const navigate = useNavigate();
@@ -28,37 +27,54 @@ const TicketPage = ({ editMode }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      const response = await axios.put(`${process.env.URL}/tickets/${id}`, {
-        data: formData,
-      });
-      const success = response.status === 200;
-      if (success) {
-        navigate("/");
+      try {
+        const response = await axios.put(
+          `https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections/tasks/${id}`,
+          {
+            data: formData,
+          }
+        );
+        if (response.status === 200) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
     if (!editMode) {
       console.log("posting");
-      const response = await axios.post(`${process.env.URL}/tickets`, {
-        formData,
-      });
-      const success = response.status === 200;
-      if (success) {
-        navigate("/");
+      try {
+        const response = await axios.post(
+          "https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections",
+          {
+            formData,
+          }
+        );
+        if (response.status === 200) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
   };
 
   const fetchData = async () => {
-    const response = await axios.get(`${process.env.URL}/tickets/${id}`);
-    console.log("AAAAAA", response);
-    setFormData(response.data.data);
+    try {
+      const response = await axios.get(
+        `https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections/${id}`
+      );
+      setFormData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     if (editMode) {
       fetchData();
     }
-  }, []);
+  }, [editMode, id]);
 
   console.log("EDITcategories", categories);
   console.log("formData", formData.status);
