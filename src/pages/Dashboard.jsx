@@ -8,7 +8,9 @@ const Dashboard = () => {
   const { categories, setCategories } = useContext(CategoriesContext);
 
   useEffect(async () => {
-    const response = await axios.get(`${process.env.DEPLOYED_URL}/tickets`);
+    const response = await axios.get(
+      "https://09de5f95-b0d5-4794-b44a-86a7a8fc9a8b-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/tickets/collections"
+    );
 
     //wasn't sure how to get the Documet Id with the object.. open to better suggestions
     const dataObject = response.data.data;
