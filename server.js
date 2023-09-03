@@ -15,6 +15,8 @@ app.use(
 );
 app.use(express.json());
 
+app.options("*", cors());
+
 app.get("/tickets", async (req, res) => {
   const options = {
     method: "GET",
